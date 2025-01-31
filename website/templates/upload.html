@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.title.label }}<br>
+            {{ form.title(size=32) }}
+        </div>
+        <div>
+            {{ form.content.label }}<br>
+            {{ form.content(rows=4, cols=32) }}
+        </div>
+        <div>
+            {{ form.image.label }}<br>
+            {{ form.image() }}
+        </div>
+        <div>
+            <button type="submit">Upload</button>
+        </div>
+    </form>
+</body>
+</html>

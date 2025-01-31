@@ -5,10 +5,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from flask_migrate import Migrate  # Import Flask-Migrate
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
-
 
 def create_app():
     app = Flask(__name__)  
@@ -16,8 +16,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
-    
-
+    # Initialize Flask-Migrate
+    migrate = Migrate(app, db)
 
     from .views import views
     from .auth import auth
@@ -27,7 +27,7 @@ def create_app():
 
     from .models import User, Note
     
-     # Initialize the database within app context
+    # Initialize the database within app context
     with app.app_context():
         db.create_all()
         print('Database Created')
@@ -41,4 +41,3 @@ def create_app():
         return User.query.get(int(id))
 
     return app
-
