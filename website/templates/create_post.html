@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Create a Public Post</h1>
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.title.label }}<br>
+      {{ form.title(size=50) }}<br>
+      {% for error in form.title.errors %}
+        <span style="color: red;">{{ error }}</span><br>
+      {% endfor %}
+    </div>
+    <div>
+      {{ form.content.label }}<br>
+      {{ form.content(rows=5) }}<br>
+      {% for error in form.content.errors %}
+        <span style="color: red;">{{ error }}</span><br>
+      {% endfor %}
+    </div>
+    <div>
+      {{ form.image.label }}<br>
+      {{ form.image }}<br>
+    </div>
+    <div>
+      {{ form.submit() }}
+    </div>
+  </form>
+{% endblock %}

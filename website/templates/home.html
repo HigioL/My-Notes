@@ -3,7 +3,29 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">Notes</h1>
+    <h1 class="text-center">Home</h1>
+
+    <!-- Section for Public Posts -->
+    <!-- Public Posts Section -->
+<h2>Public Posts</h2>
+<a href="{{ url_for('views.create_post') }}" class="btn btn-primary">Create a Post</a>
+<div class="posts">
+  {% for post in posts %}
+    <div class="post">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.content }}</p>
+      {% if post.image_path %}
+        <img src="{{ url_for('static', filename='uploads/' + post.image_path) }}" alt="Post Image" style="max-width: 300px;">
+      {% endif %}
+      <p>Posted by {{ post.author.first_name }} on {{ post.timestamp.strftime('%Y-%m-%d') }}</p>
+    </div>
+  {% else %}
+    <p>No public posts available.</p>
+  {% endfor %}
+</div>
+
+    <!-- Section for Personal Notes -->
+    <h2 class="mt-4">Your Notes</h2>
     <ul class="list-group list-group-flush" id="notes">
         {% for note in user.notes %}
             <li class="list-group-item d-flex justify-content-between align-items-center" id="note-{{ note.id }}">
@@ -18,6 +40,7 @@
         {% endfor %}
     </ul>
 
+    <!-- Form to Add a New Note -->
     <form method="POST">
         <textarea name="note" id="note" class="form-control"></textarea>
         <br />

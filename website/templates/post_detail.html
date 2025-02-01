@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    {% if post.image_path %}
+        <img src="{{ url_for('static', filename='uploads/' + post.image_path) }}" alt="Post Image" style="max-width: 100%;">
+    {% endif %}
+    <p><strong>Posted by:</strong> {{ post.author.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+
+    <h2>Comments</h2>
+    <div class="comments">
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.content }}</p>
+                <p><strong>By:</strong> {{ comment.user.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+            </div>
+        {% else %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+
+    <h2>Add a Comment</h2>
+    <form method="POST" action="{{ url_for('views.post_detail', post_id=post.id) }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.content.label }}<br>
+            {{ form.content(rows=4) }}<br>
+            {% for error in form.content.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-container">
+    <h1>{{ user.first_name }}'s Profile</h1>
+    
+    <!-- Basic User Info -->
+    <div class="user-info">
+        <p>Email: {{ user.email }}</p>
+        <p>First Name: {{ user.first_name }}</p>
+
+        <!-- Add more user fields if you have them -->
+    </div>
+
+    <!-- User's Posts -->
+    <h2>Your Posts ({{ posts|length }})</h2>
+    <div class="user-posts">
+        {% for post in posts %}
+            <div class="post">
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.content }}</p>
+                {% if post.image_path %}
+                    <img src="{{ url_for('static', filename='uploads/' + post.image_path) }}" 
+                         alt="Post image" 
+                         style="max-width: 300px;">
+                {% endif %}
+                <p class="post-meta">
+                    Posted on {{ post.timestamp.strftime('%Y-%m-%d at %H:%M') }}
+                </p>
+            </div>
+        {% else %}
+            <p>You haven't created any posts yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% for post in posts %}
+  <div class="post">
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.content }}</p>
+    <p>User ID: {{ post.user_id }}</p>  <!-- Debug line -->
+  </div>
+{% else %}
+  <p>No posts found for user ID {{ user.id }}.</p>
+{% endfor %}
